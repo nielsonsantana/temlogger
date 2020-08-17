@@ -1,7 +1,8 @@
 [![Coverage Status](https://codecov.io/gh/tembici/temlogger/branch/master/graph/badge.svg)](https://codecov.io/gh/tembici/temlogger)
 
 # TemLogger
-**Temlogger** is a library to send logs to ELK, StackDriver(Google Cloud Logging).
+**Temlogger** is a library to send logs to ELK, StackDriver(Google Cloud Logging). 
+Temlogger can be used in any python 3.6+ application. 
 
 ## Features
 
@@ -28,6 +29,59 @@ Temlogger gives you:
     pip install temlogger
 
 
+## Configuration
+
+Temlogger can be used with environment variables or programmatically.
+
+Example of configuration with environment variables:
+
+```bash
+export TEMLOGGER_APP_NAME='your-app-name'
+export TEMLOGGER_PROVIDER='logstash'
+export TEMLOGGER_URL='localhost'
+export TEMLOGGER_PORT='5000'
+export TEMLOGGER_ENVIRONMENT='staging'
+```
+
+Example of configuration programmatically:
+
+```python
+import sys
+import temlogger
+
+temlogger.config.set_provider('logstash')
+temlogger.config.set_url('localhost')
+temlogger.config.set_port(5000)
+temlogger.config.set_environment('staging')
+temlogger.config.set_app_name('your-app-name')
+```
+
+### StackDriver configuration
+
+    TEMLOGGER_APP_NAME="your-app-name" # (Optional)
+    TEMLOGGER_PROVIDER="stackdriver"
+    TEMLOGGER_ENVIRONMENT="<your environment>"
+    TEMLOGGER_GOOGLE_CREDENTIALS_BASE64="<your google json creds as base64>"
+
+
+The variable `GOOGLE_APPLICATION_CREDENTIALS` is now deprecated and your use isn't recommended. Use `TEMLOGGER_GOOGLE_CREDENTIALS_BASE64` instead.
+
+To encode your google credentials as base64 use:
+
+```bash
+base64 <google application credentials path>
+```
+
+
+### LogStash configuration
+
+    TEMLOGGER_APP_NAME="your-app-name" # (Optional)
+    TEMLOGGER_PROVIDER="logstash"
+    TEMLOGGER_URL="localhost"
+    TEMLOGGER_PORT="5000"
+    TEMLOGGER_ENVIRONMENT="<your environment>"
+
+
 ## Usage
 
 ### How to use temlogger
@@ -35,6 +89,7 @@ Temlogger gives you:
 #### Can be used with environment variables:
 
 ```bash
+export TEMLOGGER_APP_NAME='your-app-name'
 export TEMLOGGER_PROVIDER='logstash'
 export TEMLOGGER_URL='localhost'
 export TEMLOGGER_PORT='5000'
@@ -75,6 +130,7 @@ temlogger.config.set_provider('logstash')
 temlogger.config.set_url('localhost')
 temlogger.config.set_port(5000)
 temlogger.config.set_environment('staging')
+temlogger.config.set_app_name('staging')
 
 test_logger = temlogger.getLogger('python-logstash-logger')
 

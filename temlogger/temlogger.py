@@ -24,6 +24,7 @@ class LoggingConfig:
     _port = ''
     _environment = ''
     _google_credentials_base64 = ''
+    _app_name = ''
     _event_handlers = []
 
     def set_provider(self, value):
@@ -50,6 +51,12 @@ class LoggingConfig:
     def get_environment(self):
         return self._environment or os.getenv('TEMLOGGER_ENVIRONMENT', '')
 
+    def set_app_name(self, value):
+        self._app_name = value
+
+    def get_app_name(self):
+        return self._app_name or os.getenv('TEMLOGGER_APP_NAME', '')
+
     def set_google_credentials_base64(self, value):
         self._google_credentials_base64 = value
 
@@ -68,6 +75,8 @@ class LoggingConfig:
         self._url = ''
         self._port = ''
         self._environment = ''
+        self._google_credentials_base64 = ''
+        self._app_name = ''
         self._event_handlers = []
 
 
@@ -108,6 +117,7 @@ class LoggerManager:
 
         logging_url = config.get_url()
         logging_port = config.get_port()
+        app_name = config.get_app_name()
         logging_environment = config.get_environment()
 
         logger = logging.getLogger(name)
@@ -116,6 +126,7 @@ class LoggerManager:
         logger.setLevel(logging.INFO)
         handler = TCPLogstashHandler(logging_url, logging_port, version=1)
         handler.setFormatter(LogstashFormatter(
+            app_name=app_name,
             environment=logging_environment,
             event_handlers=event_handlers
         ))
@@ -130,6 +141,7 @@ class LoggerManager:
         import google.cloud.logging
         from .providers.stackdriver import StackDriverFormatter
 
+        app_name = config.get_app_name()
         logging_environment = config.get_environment()
         base64_cred = config.get_google_credentials_base64()
 
@@ -147,9 +159,10 @@ class LoggerManager:
 
         # Setup logger explicitly with this handler
         handler.setFormatter(StackDriverFormatter(
+            app_name=app_name,
             environment=logging_environment,
-            event_handlers=event_handlers)
-        )
+            event_handlers=event_handlers
+        ))
 
         logger.setLevel(logging.INFO)
         logger.addHandler(handler)

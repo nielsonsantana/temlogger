@@ -11,8 +11,10 @@ def clean_temlogger_config():
     environments_to_clean = [
         'TEMLOGGER_PROVIDER',
         'TEMLOGGER_URL',
-        'TEMLOGGER_PORT'
-        'TEMLOGGER_ENVIRONMENT'
+        'TEMLOGGER_PORT',
+        'TEMLOGGER_ENVIRONMENT',
+        'TEMLOGGER_GOOGLE_CREDENTIALS_BASE64',
+        'TEMLOGGER_APP_NAME'
     ]
     for env in environments_to_clean:
         if env in os.environ:

@@ -41,6 +41,7 @@ class TestEventHandler(unittest.TestCase):
 
             expected = {
                 '@timestamp': '2020-03-06T21:29:36.246Z',
+                'app_name': '',
                 'message': logger_message,
                 'host': socket.gethostname(),
                 'path': os.path.abspath(__file__),
@@ -96,6 +97,7 @@ class TestEventHandler(unittest.TestCase):
 
             expected = {
                 '@timestamp': '2020-03-06T21:29:36.246Z',
+                'app_name': '',
                 'message': logger_message,
                 'host': socket.gethostname(),
                 'path': os.path.abspath(__file__),
@@ -150,6 +152,7 @@ class TestEventHandler(unittest.TestCase):
 
             expected = {
                 '@timestamp': '2020-03-06T21:29:36.246Z',
+                'app_name': '',
                 'message': logger_message,
                 'host': socket.gethostname(),
                 'path': os.path.abspath(__file__),
@@ -187,6 +190,7 @@ class TestEventHandler(unittest.TestCase):
 
             expected = {
                 '@timestamp': '2020-03-06T21:29:36.246Z',
+                'app_name': '',
                 'message': logger_message,
                 'host': socket.gethostname(),
                 'path': os.path.abspath(__file__),
@@ -223,6 +227,7 @@ class TestEventHandler(unittest.TestCase):
 
             expected = {
                 '@timestamp': '2020-03-06T21:29:36.246Z',
+                'app_name': '',
                 'message': logger_message,
                 'host': socket.gethostname(),
                 'path': os.path.abspath(__file__),
