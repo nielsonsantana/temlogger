@@ -1,7 +1,7 @@
 [![Coverage Status](https://codecov.io/gh/tembici/temlogger/branch/master/graph/badge.svg)](https://codecov.io/gh/tembici/temlogger)
 
 # TemLogger
-**Temlogger** is a library that help send logs to different providers such ELK, StackDriver(Google Cloud Logging). 
+**Temlogger** is a library to sends logs to providers such as ELK and StackDriver(Google Cloud Logging).
 Temlogger can be used in any python 3.6+ application.
 
 ## Features
