@@ -89,7 +89,7 @@ class LoggingConfig:
     def get_app_name(self):
         return self._app_name or os.getenv('TEMLOGGER_APP_NAME', '')
 
-    def clear(self):
+    def reset(self):
         self._provider = ''
         self._url = ''
         self._port = ''
@@ -97,6 +97,7 @@ class LoggingConfig:
         self._google_credentials_base64 = ''
         self._event_handlers = []
         self._log_level = ''
+        self._app_name = ''
 
 
 class LoggerManager:
