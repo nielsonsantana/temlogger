@@ -19,10 +19,10 @@ jobs:
     steps:
       - name: Deploy branch
         if: github.event.inputs.git-ref != ''
+        env:
+          BRANCH: ${{ github.event.inputs.git-ref }}
         run: |
           echo "deploy $BRANCH"
-        with:
-          branch: ${{ github.event.inputs.git-ref }}
 
       - name: Clone Repository (Latest)
         uses: actions/checkout@v2
