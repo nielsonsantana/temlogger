@@ -1,0 +1,35 @@
+name: Manual CD Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      git-ref:
+        description: Branch name
+        default: master
+        required: true
+      environment:
+        description: environment
+        default: develop
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy To Production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy branch
+        if: github.event.inputs.git-ref != ''
+        run: |
+          echo "deploy $BRANCH"
+        with:
+          branch: ${{ github.event.inputs.git-ref }}
+
+      - name: Clone Repository (Latest)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref == ''
+
+      - name: Clone Repository (Custom Ref)
+        uses: actions/checkout@v2
+        if: github.event.inputs.git-ref != ''
+        with:
+          ref: ${{ github.event.inputs.git-ref }}
