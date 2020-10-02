@@ -21,8 +21,9 @@ jobs:
         if: github.event.inputs.git-ref != ''
         env:
           BRANCH: ${{ github.event.inputs.git-ref }}
+          ENVIRONMENT: ${{ github.event.inputs.environment }}
         run: |
-          echo "deploy $BRANCH"
+          echo "deploy branch $BRANCH on $ENVIRONMENT"
 
       - name: Clone Repository (Latest)
         uses: actions/checkout@v2
