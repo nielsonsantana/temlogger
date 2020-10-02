@@ -8,13 +8,13 @@ on:
         default: master
         required: true
       environment:
-        description: environment
+        description: Environment (develop, homolog, production)
         default: develop
         required: true
 
 jobs:
   deploy:
-    name: Deploy To Production
+    name: Deploy To Environment
     runs-on: ubuntu-latest
     steps:
       - name: Deploy branch
