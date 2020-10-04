@@ -116,7 +116,6 @@ class LoggerManager:
         logger = logging.getLogger(name)
         has_log_provider = hasattr(logger, 'logging_provider')
         if has_log_provider and logger.logging_provider == logging_provider:
-            logger = self._handle_existing_stackdriver_logger(logger)
             return logger
 
         logger.handlers.clear()
@@ -176,22 +175,6 @@ class LoggerManager:
 
         return logger
 
-    def _handle_existing_stackdriver_logger(self, logger):
-        from google.cloud.logging.handlers import CloudLoggingHandler
-
-        if logger.logging_provider != LoggingProvider.STACK_DRIVER:
-            return logger
-
-        if not logger.handlers:
-            return logger
-
-        for handler in logger.handlers:
-            has_transport_attr = hasattr(handler, 'transport')
-            if isinstance(handler, CloudLoggingHandler) and has_transport_attr:
-                if not handler.transport.worker.is_alive:
-                    handler.transport.worker.start()
-        return logger
-
     def get_logger_stackdriver(self, name, event_handlers=[]):
         """
         Docs: https://googleapis.dev/python/logging/latest/handlers.html
@@ -215,7 +198,6 @@ class LoggerManager:
         logger.setLevel(config.get_log_level_parsed())
         logger.logging_provider = LoggingProvider.STACK_DRIVER
 
-        handler = client.get_default_handler()
         handler = StackDriverLoggingHandler(client)
 
         # Setup logger explicitly with this handler

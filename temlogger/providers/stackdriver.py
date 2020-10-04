@@ -20,5 +20,4 @@ class StackDriverLoggingHandler(CloudLoggingHandler):
 
     def emit(self, record):
         self.ensure_transport_worker_is_running()
-        message = super(CloudLoggingHandler, self).format(record)
-        self.transport.send(record, message, resource=self.resource, labels=self.labels)
+        super().emit(record)

@@ -1,8 +1,6 @@
 import base64
 import tempfile
 
-
-from google.cloud.logging import Client as LoggingClient
 from importlib import import_module
 
 
@@ -43,6 +41,8 @@ def import_string_list(dotted_path_list=[]):
 
 
 def load_google_client(base64_data, scopes=[]):
+    from google.cloud.logging import Client as LoggingClient
+
     if not base64_data:
         return ''
 

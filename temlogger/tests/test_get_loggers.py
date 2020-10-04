@@ -162,6 +162,33 @@ class TestStackDriverLogger(unittest.TestCase):
         temlogger.config.set_provider('stackdriver')
         temlogger.getLogger('stackdriver-base64')
 
+    @mock.patch("google.cloud.logging.handlers.CloudLoggingHandler.emit")
+    def test_stackdriver_worker_thread_is_alive_when_send_logs(self, mock_emit):
+        """
+        This problem happen when temlogger is used with celery.
+        The fork process made by celery, don't start the worker
+        """
+        valid_cred = encode_file_as_base64(VALID_GOOGLE_CREDENTIALS)
+
+        os.environ['TEMLOGGER_GOOGLE_CREDENTIALS_BASE64'] = valid_cred
+        temlogger.config.set_provider('stackdriver')
+        temlogger.config.set_log_level('DEBUG')
+
+        logger = temlogger.getLogger('stackdriver-worker-stopped-log')
+        handler = logger.handlers[0]
+
+        handler.transport.worker.stop()
+        self.assertFalse(handler.transport.worker.is_alive)
+
+        logger.info('Activate thread on log info')
+        self.assertTrue(handler.transport.worker.is_alive)
+
+        handler.transport.worker.stop()
+        self.assertFalse(handler.transport.worker.is_alive)
+
+        logger.debug('Activate thread on log debug')
+        self.assertTrue(handler.transport.worker.is_alive)
+
 
 class TestConsoleLogger(unittest.TestCase):
 
